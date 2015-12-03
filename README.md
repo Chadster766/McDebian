@@ -6,6 +6,7 @@ I've managed to get Debian Jessie to run successfully on a WRT1900AC V2.
 The below link outlines how I did it:
 
 Linksys WRT1900\1200 Router Series Debian OS Implementation:
+
 http://www.snbforums.com/threads/linksys-wrt1900-1200-router-series-debian-os-implementation.28394/
 
 I'm hoping this will spur activity and development to improve the SMB potential of the new Linksys WRT series for the advanced IT sector.
