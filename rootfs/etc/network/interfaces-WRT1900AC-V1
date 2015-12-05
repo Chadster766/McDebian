@@ -6,10 +6,10 @@ auto lo br0
 
 iface lo inet loopback
 
-allow-hotplug wlan0
+allow-hotplug wlan2
 iface wlan0 inet manual
 
-allow-hotplug wlan1
+allow-hotplug wlan3
 iface wlan1 inet manual
 
 allow-hotplug eth0
@@ -17,10 +17,10 @@ allow-hotplug eth0
 iface eth1 inet manual
 
 iface br0 inet static
-	bridge_ports eth0 wlan1 wlan0
-        address 192.168.200.10
+	bridge_ports eth1 eth0 wlan2 wlan3
+        address 192.168.1.1
         netmask 255.255.255.0
-        network 192.168.200.0
-        broadcast 192.168.200.255
-        gateway 192.168.200.1
-	dns-nameservers 192.168.200.1 
+        network 192.168.1.0
+        broadcast 192.168.1.255
+        gateway 192.168.1.1
+	dns-nameservers 192.168.1.1 
