@@ -21,8 +21,6 @@ http://www.protechs-online.com/downloads/McDebian/rootfs
 
 http://www.protechs-online.com/downloads/McDebian/firmwares
 
-Default IP Address 192.168.1.1
-
 Username: mcdebian
 
 Password: mcdebian123
@@ -38,3 +36,11 @@ Wireles WPA2 Personal:
 
 
 Password: mcdebian123
+
+Default IP Address 192.168.1.1
+
+To make the USB2.0 or USB3.0 rootfs:
+
+mkfs.ext4 /dev/sdb(x)
+mount /dev/sdb(x) /mnt/usbkey
+tar zxf mcdebian-(x)-base.gz -C /mnt/usbkey
