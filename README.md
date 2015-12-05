@@ -26,4 +26,9 @@ Debian System credentials:
 
 Username: root
 
-Password: mcwrt
+Password: mcdebian
+
+Wireles WPA2 Personal:
+
+
+Password: mcdebian123
