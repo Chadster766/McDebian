@@ -13,9 +13,14 @@ I'm hoping this will spur activity and development to improve the SMB potential 
 
 I'm also looking for firewall, routing and security suggestions along with system configurations to speed up development of this Debian WRT system.
 
+Only uses these firmwares if you have USB to TTL access to your WRT1900\1200 router.
+
 You can download the rootfs using the below link and credentials:
 
-http://www.protechs-online.com/downloads/McDebian/rootfs/
+http://www.protechs-online.com/downloads/McDebian/rootfs
+http://www.protechs-online.com/downloads/McDebian/firmwares
+
+Default IP Address 192.168.1.1
 
 Username: mcdebian
 
