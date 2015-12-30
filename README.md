@@ -15,10 +15,12 @@ Linux Kernel version is "4.2.4".
 Debian root files system is "Jessie" stable.
 
 Dibbler version is "1.0.1"
+
 -
 ##Warning!
 
 **Flashing the McDebian firmware must only be done using a USB to Serial cable. 
 -
+
 **Please email me if you would like to be part of the development team or would like Contributor access to this GitHub.**
 
