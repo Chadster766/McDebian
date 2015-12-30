@@ -26,7 +26,7 @@ McDebian compatible with the below Linksys WRT models:
 -
 ##Warning!
 
-**Flashing the McDebian firmware must only be done using a USB to Serial cable. 
+Flashing the McDebian firmware must only be done using a USB to Serial cable. 
 -
 
 **Please email me if you would like to be part of the development team or would like Contributor access to this GitHub.**
