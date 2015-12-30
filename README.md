@@ -23,6 +23,9 @@ McDebian compatible with the below Linksys WRT models:
 3. WRT1200AC V1
 4. WRT1900ACS V1 (NOT TESTED)
 
+## McDebian Deployment Instructions
+https://github.com/Chadster766/McDebian/wiki
+
 -
 ##Warning!
 
