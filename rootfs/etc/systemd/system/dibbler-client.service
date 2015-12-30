@@ -1,0 +1,13 @@
+[Unit]
+Description=Dibbler Client
+After=networking.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/dibbler-client start
+ExecStop=/usr/bin/pkill dibbler-client
+PrivateTmp=true
+NonBlocking=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,29 @@
+# Defaults for dibbler-client.
+# installed at /etc/dibbler/client.conf by the maintainer scripts
+
+# 8 (Debug) is most verbose. 7 (Info) is usually the best option
+log-level 7
+
+# To perform stateless (i.e. options only) configuration, uncomment
+# this line below and remove any "ia" keywords from interface definitions
+# stateless
+
+iface eth0 {
+# ask for address
+    ia
+
+# ask for options
+    option dns-server
+#   option domain
+#   option dns-server
+    option domain
+#    option ntp-server
+#    option time-zone
+#    option sip-server
+#    option sip-domain
+#    option nis-server
+#    option nis-domain
+#    option nis+-server
+#    option nis+-domain
+}
+

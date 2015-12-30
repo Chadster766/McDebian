@@ -1,0 +1,28 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+# Include files from /etc/network/interfaces.d:
+source-directory /etc/network/interfaces.d
+
+auto lo br0
+
+iface lo inet loopback
+	
+allow-hotplug wlan0
+iface wlan0 inet manual
+	
+allow-hotplug wlan1
+iface wlan1 inet manual
+	
+allow-hotplug eth0 eth1
+
+iface eth0 inet dhcp
+	pre-up /etc/dibbler/mcdebian-set-mac
+	pre-up iptables-restore < /etc/iptables.up.rules
+	pre-up ip6tables-restore < /etc/ip6tables.up.rules
+
+iface br0 inet static
+	bridge_ports eth1 wlan1 wlan0
+	address 192.168.1.1
+	netmask 255.255.255.0
+	network 192.168.1.0
+	broadcast 192.168.1.255
+

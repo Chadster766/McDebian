@@ -1,0 +1,5 @@
+#!/bin/sh
+ETH0MAC=`strings /dev/mtd3|grep hw_mac_addr|cut -d= -f2`
+ifconfig eth0 down
+ifconfig eth0 hw ether $ETH0MAC
+ifconfig eth0 up

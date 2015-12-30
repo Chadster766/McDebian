@@ -1,0 +1,88 @@
+#
+# Example server configuration file
+#
+# This config. file is considered all-purpose as it instructs server
+# to provide almost every configuratio
+# 
+
+# Logging level range: 1(Emergency)-8(Debug)
+log-level 8
+
+# Don't log full date
+log-mode short
+
+# Uncomment this line to call script every time a response is sent
+#script "/var/lib/dibbler/server-notify.sh"
+
+# set preference of this server to 0 (higher = more prefered)
+preference 0
+
+iface "eth0" {
+
+ // also ranges can be defines, instead of exact values
+ t1 1800-2000
+ t2 2700-3000
+ prefered-lifetime 3600
+ valid-lifetime 7200
+ 
+# assign addresses from this pool
+ class {
+   pool 2001:db8:1111::/64
+ }
+
+# assign temporary addresses from this pool
+
+ ta-class {
+    pool 2001:db8:2222::/96
+ }
+ 
+#assign /96 prefixes from this pool
+ pd-class {
+     pd-pool 2001:db8:3333::/80
+     #pd-poll 2001:db8:4444::/80
+     pd-length 96
+ }
+
+# provide DNS server location to the clients
+ option dns-server 2000::ff,2000::fe
+ 
+# provide their domain name
+ option domain example.com
+
+# provide vendor-specific info (vendor id=5678 will get first value,
+# while vendor=1556 will get second value)
+ option vendor-spec 5678-1-0x3031323334,1556-2-0x393837363534
+
+# provide ntp-server information
+ option ntp-server 2000::200,2000::201,2000::202
+
+# provide timezone information
+ option time-zone  CET
+
+# provide VoIP parameter (SIP protocol servers and domain names)
+ option sip-server 2000::300,2000::302,2000::303,2000::304
+ option sip-domain sip1.example.com,sip2.example.com
+
+# provide NIS information (server addresses and domain name)
+ option nis-server 2000::400,2000::401,2000::404,2000::405,2000::405
+ option nis-domain nis.example.com
+
+# provide NIS+ information (server addresses and domain name)
+ option nis+-server 2000::501,2000::502
+ option nis+-domain nisplus.example.com
+
+# provide AFTR information for DS-Lite clients (B4)
+ option aftr cgn.example.com
+
+# provide fully qualified domain names for clients
+# note that first, second and third entry is reserved
+# for a specific address or a DUID
+ option fqdn 1 64 zebuline.example.com - 2000::1,
+                  kael.example.com - 2000::2,
+                  inara.example.com - 0x0001000043ce25b40013d4024bf5,
+	          zoe.example.com,
+                  malcolm.example.com,
+                  kaylee.example.com,
+	          jayne.example.com,
+	          wash.example.com
+}
