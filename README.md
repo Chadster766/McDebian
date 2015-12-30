@@ -17,6 +17,7 @@ Debian root files system is "Jessie" stable.
 Dibbler version is "1.0.1"
 
 McDebian compatible with the below Linksys WRT models:
+
 1. WRT1900AC V1
 2. WRT1900AC V2
 3. WRT1200AC V1
