@@ -18,7 +18,7 @@ Dibbler version is "1.0.1"
 
 McDebian compatible with the below Linksys WRT models:
 
-1. WRT1900AC V1
+1. WRT1900AC V1 (NO FAN CONTROL)
 2. WRT1900AC V2
 3. WRT1200AC V1
 4. WRT1900ACS V1 (NOT TESTED)
