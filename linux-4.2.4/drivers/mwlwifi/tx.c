@@ -76,7 +76,7 @@ static int mwl_tx_ring_alloc(struct mwl_priv *priv)
 
 	desc = &priv->desc_data[0];
 
-	mem = dma_alloc_coherent(&priv->pdev->dev,
+	mem = dma_alloc_coherent(priv->dev,
 				 MAX_NUM_TX_RING_BYTES *
 				 SYSADPT_NUM_OF_DESC_DATA,
 				 &desc->pphys_tx_ring,
@@ -106,7 +106,7 @@ static int mwl_tx_ring_alloc(struct mwl_priv *priv)
 
 	if (!mem) {
 		wiphy_err(priv->hw->wiphy, "cannot alloc mem\n");
-		dma_free_coherent(&priv->pdev->dev,
+		dma_free_coherent(priv->dev,
 				  MAX_NUM_TX_RING_BYTES *
 				  SYSADPT_NUM_OF_DESC_DATA,
 				  priv->desc_data[0].ptx_ring,
@@ -214,7 +214,7 @@ static void mwl_tx_ring_free(struct mwl_priv *priv)
 	int num;
 
 	if (priv->desc_data[0].ptx_ring) {
-		dma_free_coherent(&priv->pdev->dev,
+		dma_free_coherent(priv->dev,
 				  MAX_NUM_TX_RING_BYTES *
 				  SYSADPT_NUM_OF_DESC_DATA,
 				  priv->desc_data[0].ptx_ring,
@@ -564,7 +564,7 @@ static inline struct sk_buff *mwl_tx_do_amsdu(struct mwl_priv *priv,
 		struct sk_buff *newskb;
 
 		amsdu_pkts = (struct sk_buff_head *)
-			kmalloc(sizeof(*amsdu_pkts), GFP_KERNEL);
+			kmalloc(sizeof(*amsdu_pkts), GFP_ATOMIC);
 		if (!amsdu_pkts) {
 			spin_unlock_bh(&sta_info->amsdu_lock);
 			return tx_skb;
@@ -847,9 +847,9 @@ void mwl_tx_xmit(struct ieee80211_hw *hw,
 
 		if (is_multicast_ether_addr(wh->addr1))
 			xmitcontrol |= EAGLE_TXD_XMITCTRL_USE_MC_RATE;
-
-		k_conf = tx_info->control.hw_key;
 	}
+
+	k_conf = tx_info->control.hw_key;
 
 	/* Queue ADDBA request in the respective data queue.  While setting up
 	 * the ampdu stream, mac80211 queues further packets for that

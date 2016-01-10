@@ -145,6 +145,10 @@ static const struct ieee80211_iface_combination ap_if_comb = {
 	.n_limits = ARRAY_SIZE(ap_if_limits),
 	.max_interfaces = SYSADPT_NUM_OF_AP,
 	.num_different_channels = 1,
+	.radar_detect_widths =	BIT(NL80211_CHAN_WIDTH_20_NOHT) |
+				BIT(NL80211_CHAN_WIDTH_20) |
+				BIT(NL80211_CHAN_WIDTH_40) |
+				BIT(NL80211_CHAN_WIDTH_80),
 };
 
 static int mwl_alloc_pci_resource(struct mwl_priv *priv)
@@ -156,7 +160,7 @@ static int mwl_alloc_pci_resource(struct mwl_priv *priv)
 	if (pci_resource_flags(pdev, 0) & 0x04)
 		priv->next_bar_num = 2;	/* 64-bit */
 
-	addr = devm_ioremap_resource(&pdev->dev, &pdev->resource[0]);
+	addr = devm_ioremap_resource(priv->dev, &pdev->resource[0]);
 	if (IS_ERR(addr)) {
 		wiphy_err(priv->hw->wiphy,
 			  "%s: cannot reserve PCI memory region 0\n",
@@ -166,7 +170,7 @@ static int mwl_alloc_pci_resource(struct mwl_priv *priv)
 	priv->iobase0 = addr;
 	wiphy_debug(priv->hw->wiphy, "priv->iobase0 = %p\n", priv->iobase0);
 
-	addr = devm_ioremap_resource(&pdev->dev,
+	addr = devm_ioremap_resource(priv->dev,
 				     &pdev->resource[priv->next_bar_num]);
 	if (IS_ERR(addr)) {
 		wiphy_err(priv->hw->wiphy,
@@ -178,7 +182,7 @@ static int mwl_alloc_pci_resource(struct mwl_priv *priv)
 	wiphy_debug(priv->hw->wiphy, "priv->iobase1 = %p\n", priv->iobase1);
 
 	priv->pcmd_buf =
-		(unsigned short *)dmam_alloc_coherent(&priv->pdev->dev,
+		(unsigned short *)dmam_alloc_coherent(priv->dev,
 						      CMD_BUF_SIZE,
 						      &priv->pphys_cmd_buf,
 						      GFP_KERNEL);
@@ -204,10 +208,8 @@ err:
 
 static int mwl_init_firmware(struct mwl_priv *priv, const char *fw_name)
 {
-	struct pci_dev *pdev;
 	int rc = 0;
 
-	pdev = priv->pdev;
 
 #ifdef CONFIG_SUPPORT_MFG
 	if (priv->mfg_mode)
@@ -215,7 +217,7 @@ static int mwl_init_firmware(struct mwl_priv *priv, const char *fw_name)
 	else
 #endif
 		rc = request_firmware((const struct firmware **)&priv->fw_ucode,
-				      fw_name, &priv->pdev->dev);
+				      fw_name, priv->dev);
 
 	if (rc) {
 		if (priv->mfg_mode)
@@ -259,19 +261,23 @@ err_load_fw:
 static void mwl_reg_notifier(struct wiphy *wiphy,
 			     struct regulatory_request *request)
 {
-#ifdef CONFIG_OF
 	struct ieee80211_hw *hw;
 	struct mwl_priv *priv;
+#ifdef CONFIG_OF
 	struct property *prop;
 	struct property *fcc_prop = NULL;
 	struct property *etsi_prop = NULL;
 	struct property *specific_prop = NULL;
 	u32 prop_value;
 	int i, j, k;
+#endif
 
 	hw = (struct ieee80211_hw *)wiphy_priv(wiphy);
 	priv = hw->priv;
 
+	priv->dfs_region = request->dfs_region;
+
+#ifdef CONFIG_OF
 	if (priv->pwr_node) {
 		for_each_property_of_node(priv->pwr_node, prop) {
 			if (strcmp(prop->name, "FCC") == 0)
@@ -288,7 +294,7 @@ static void mwl_reg_notifier(struct wiphy *wiphy,
 		if (specific_prop) {
 			prop = specific_prop;
 		} else {
-			if (request->dfs_region == NL80211_DFS_ETSI)
+			if (priv->dfs_region == NL80211_DFS_ETSI)
 				prop = etsi_prop;
 			else
 				prop = fcc_prop;
@@ -338,8 +344,7 @@ static void mwl_reg_notifier(struct wiphy *wiphy,
 			}
 
 			/* Dump loaded power tabel */
-			wiphy_info(hw->wiphy, "%s: %s\n", dev_name(&wiphy->dev),
-				   prop->name);
+			wiphy_debug(hw->wiphy, "regdomain: %s\n", prop->name);
 			for (i = 0; i < SYSADPT_MAX_NUM_CHANNELS; i++) {
 				struct mwl_tx_pwr_tbl *pwr_tbl;
 				char disp_buf[64];
@@ -348,12 +353,12 @@ static void mwl_reg_notifier(struct wiphy *wiphy,
 				pwr_tbl = &priv->tx_pwr_tbl[i];
 				if (pwr_tbl->channel == 0)
 					break;
-				wiphy_info(hw->wiphy,
-					   "Channel: %d: 0x%x 0x%x 0x%x\n",
-					   pwr_tbl->channel,
-					   pwr_tbl->setcap,
-					   pwr_tbl->cdd,
-					   pwr_tbl->txantenna2);
+				wiphy_debug(hw->wiphy,
+					    "Channel: %d: 0x%x 0x%x 0x%x\n",
+					    pwr_tbl->channel,
+					    pwr_tbl->setcap,
+					    pwr_tbl->cdd,
+					    pwr_tbl->txantenna2);
 				disp_ptr = disp_buf;
 				for (j = 0; j < SYSADPT_TX_POWER_LEVEL_TOTAL;
 				     j++) {
@@ -361,7 +366,7 @@ static void mwl_reg_notifier(struct wiphy *wiphy,
 						sprintf(disp_ptr, "%x ",
 							pwr_tbl->tx_power[j]);
 				}
-				wiphy_info(hw->wiphy, "%s\n", disp_buf);
+				wiphy_debug(hw->wiphy, "%s\n", disp_buf);
 			}
 		}
 	}
@@ -549,6 +554,7 @@ static int mwl_wl_init(struct mwl_priv *priv)
 #endif
 
 	hw->wiphy->flags |= WIPHY_FLAG_IBSS_RSN;
+	hw->wiphy->flags |= WIPHY_FLAG_HAS_CHANNEL_SWITCH;
 
 	hw->vif_data_size = sizeof(struct mwl_vif);
 	hw->sta_data_size = sizeof(struct mwl_sta);
@@ -566,8 +572,16 @@ static int mwl_wl_init(struct mwl_priv *priv)
 
 	priv->powinited = 0;
 
+	priv->csa_active = false;
+	priv->dfs_chirp_count_min = 5;
+	priv->dfs_chirp_time_interval = 1000;
+	priv->dfs_pw_filter = 0;
+	priv->dfs_min_num_radar = 5;
+	priv->dfs_min_pri_count = 4;
+
 	/* Handle watchdog ba events */
 	INIT_WORK(&priv->watchdog_ba_handle, mwl_watchdog_ba_events);
+	INIT_WORK(&priv->chnl_switch_handle, mwl_chnl_switch_event);
 
 	tasklet_init(&priv->tx_task, (void *)mwl_tx_done, (unsigned long)hw);
 	tasklet_disable(&priv->tx_task);
@@ -751,17 +765,19 @@ static int mwl_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	/* hook regulatory domain change notification */
 	hw->wiphy->reg_notifier = mwl_reg_notifier;
 
-	SET_IEEE80211_DEV(hw, &pdev->dev);
 	pci_set_drvdata(pdev, hw);
 
 	priv = hw->priv;
 	priv->hw = hw;
 	priv->pdev = pdev;
+	priv->dev = &pdev->dev;
 	priv->chip_type = id->driver_data;
 	priv->disable_2g = false;
 	priv->disable_5g = false;
 	priv->antenna_tx = mwl_chip_tbl[priv->chip_type].antenna_tx;
 	priv->antenna_rx = mwl_chip_tbl[priv->chip_type].antenna_rx;
+
+	SET_IEEE80211_DEV(hw, priv->dev);
 
 	rc = mwl_alloc_pci_resource(priv);
 	if (rc)
@@ -799,23 +815,13 @@ static int mwl_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 		goto err_wl_init;
 	}
 
-	wiphy_info(priv->hw->wiphy,
-		   "2G: %s\n", priv->disable_2g ? "disable" : "enable");
-	wiphy_info(priv->hw->wiphy,
-		   "5G: %s\n", priv->disable_5g ? "disable" : "enable");
+	wiphy_info(priv->hw->wiphy, "2G %s, 5G %s\n",
+		   priv->disable_2g ? "disabled" : "enabled",
+		   priv->disable_5g ? "disabled" : "enabled");
 
-	if (priv->antenna_tx == ANTENNA_TX_4_AUTO)
-		wiphy_info(priv->hw->wiphy, "TX: 4 antennas\n");
-	else if (priv->antenna_tx == ANTENNA_TX_2)
-		wiphy_info(priv->hw->wiphy, "TX: 2 antennas\n");
-	else
-		wiphy_info(priv->hw->wiphy, "TX: unknown\n");
-	if (priv->antenna_rx == ANTENNA_RX_4_AUTO)
-		wiphy_info(priv->hw->wiphy, "RX: 4 antennas\n");
-	else if (priv->antenna_rx == ANTENNA_RX_2)
-		wiphy_info(priv->hw->wiphy, "RX: 2 antennas\n");
-	else
-		wiphy_info(priv->hw->wiphy, "RX: unknown\n");
+	wiphy_info(priv->hw->wiphy, "%s TX antennas, %s RX antennas\n",
+		   (priv->antenna_tx == ANTENNA_TX_4_AUTO) ? "4" : "2",
+		   (priv->antenna_rx == ANTENNA_RX_4_AUTO) ? "4" : "2");
 
 #ifdef CONFIG_DEBUG_FS
 	mwl_debugfs_init(hw);
