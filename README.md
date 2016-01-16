@@ -6,7 +6,7 @@
 
 https://github.com/kaloz/mwlwifi
 
-Marvell open source driver version is "10.3.0.14" including the below commit is in the McDebian base rootfs.
+Marvell open source driver version "10.3.0.14" including the below commit is in the McDebian base rootfs.
 
 https://github.com/kaloz/mwlwifi/commit/352efe4bdc34204cc528ac9a979bb0032a6996e0
 
