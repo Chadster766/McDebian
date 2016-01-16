@@ -2,7 +2,7 @@
 
 ## A Linksys WRT1900\1200 Router Series Debian Implementation
 
-**Original source of Marvell 88W8864 802.11ac hostapd driver**
+**Original source of Marvell 802.11ac hostapd driver**
 
 https://github.com/kaloz/mwlwifi
 
