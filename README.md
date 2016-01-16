@@ -6,11 +6,11 @@
 
 https://github.com/kaloz/mwlwifi
 
-Marvell 88W8864 driver version is "10.3.0.14" including the below commit.
+Marvell open source driver version is "10.3.0.14" including the below commit is included in the McDebian base rootfs.
 
 https://github.com/kaloz/mwlwifi/commit/352efe4bdc34204cc528ac9a979bb0032a6996e0
 
-(Wireless driver version "10.3.0.16" with DFS channel support will be available for McDebian deployment soon. Testing is almost complete.) 
+The wireless driver is updated to version "10.3.0.16" in McDebian rootfs update V1.0.1.
 
 Linux Kernel version is "4.2.4".
 
