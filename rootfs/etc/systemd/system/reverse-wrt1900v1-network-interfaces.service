@@ -4,7 +4,6 @@ Documentation=https://github.com/Chadster766/McDebian/wiki/Reversed-network-inte
 After=localfs.target
 Before=systemd-udevd.service
 DefaultDependencies=no
-ConditionPathExists=/etc/udev/rules.d/70-persistent-net.rules
 
 [Service]
 ExecStart=/etc/systemd/reverse-wrt1900v1-network-interfaces
