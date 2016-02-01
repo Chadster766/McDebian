@@ -1,0 +1,14 @@
+[Unit]
+Description=udev network interface rules
+Documentation=https://github.com/Chadster766/McDebian/wiki/Udev-network-interface-rules
+After=localfs.target
+Before=systemd-udevd.service
+DefaultDependencies=no
+
+[Service]
+ExecStart=/etc/systemd/udev-network-interface-rules
+Type=oneshot
+RemainAfterExit=true
+
+[Install]
+WantedBy=sysinit.target
