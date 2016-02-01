@@ -1,3 +1,6 @@
+# This service has been deprecated in favor of service udev-network-interface-rules
+# It exist for backward compatibility to ensure a smooth upgrade.
+
 [Unit]
 Description=Reverse network interfaces on a Linksys WRT1900ac v1
 Documentation=https://github.com/Chadster766/McDebian/wiki/Reversed-network-interfaces-on-WRT1900ac
@@ -6,7 +9,7 @@ Before=systemd-udevd.service
 DefaultDependencies=no
 
 [Service]
-ExecStart=/etc/systemd/reverse-wrt1900v1-network-interfaces
+ExecStart=/bin/true
 Type=oneshot
 RemainAfterExit=true
 

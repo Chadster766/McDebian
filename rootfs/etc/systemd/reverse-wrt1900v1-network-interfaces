@@ -1,16 +1,7 @@
 #!/bin/bash
 
-if strings /dev/mtd3 | grep -w 'modelNumber=WRT1900AC' >> /dev/null
-then
-  if strings /dev/mtd3 | grep 'hw_revision=1' >>  /dev/null
-  then
-    echo '# On a Linksys WRT1900ac version 1, network interfaces are reversed.' > /etc/udev/rules.d/70-persistent-net.rules
-    echo '# These rules undo the reversal' >> /etc/udev/rules.d/70-persistent-net.rules
-    echo '# More info: https://github.com/Chadster766/McDebian/wiki/Reversed-network-interfaces-on-WRT1900ac' >> /etc/udev/rules.d/70-persistent-net.rules
-    echo 'SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="eth1"' >> /etc/udev/rules.d/70-persistent-net.rules
-    echo 'SUBSYSTEM=="net", ATTR{ifindex}=="3", NAME="eth0"' >> /etc/udev/rules.d/70-persistent-net.rules
-    echo 'SUBSYSTEM=="net", ATTR{ifindex}=="4", NAME="wlan1"' >> /etc/udev/rules.d/70-persistent-net.rules
-    echo 'SUBSYSTEM=="net", ATTR{ifindex}=="5", NAME="wlan0"' >> /etc/udev/rules.d/70-persistent-net.rules
-  fi
-fi
+# The use of this file and the corresponding service (reverse-wrt1900v1-network-interfaces.service)
+# has been deprecated in favor of service udev-network-interface-rules
+# It exist for backward compatibility to ensure a smooth upgrade.
+
 exit 0
