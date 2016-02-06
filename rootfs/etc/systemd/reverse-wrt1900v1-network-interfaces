@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# The use of this file and the corresponding service (reverse-wrt1900v1-network-interfaces.service)
-# has been deprecated in favor of service udev-network-interface-rules
-# It exist for backward compatibility to ensure a smooth upgrade.
-
-exit 0
