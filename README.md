@@ -12,6 +12,8 @@ https://github.com/kaloz/mwlwifi/commit/352efe4bdc34204cc528ac9a979bb0032a6996e0
 
 ###The wireless driver is updated to version "10.3.0.16" in McDebian rootfs update V1.0.0.
 
+##New Rootfs update V1.0.1
+
 Linux Kernel version is "4.2.4".
 
 Debian root files system is "Jessie" stable.
