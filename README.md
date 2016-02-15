@@ -34,6 +34,8 @@ https://github.com/Chadster766/McDebian/wiki
 ##Warning!
 
 Flashing the McDebian firmware must only be done using a USB to Serial cable. 
+
+##Notice: USB Flash\Keys drives are wearing faster than expected. I recommend using a spinning disk external drive or any other type of disk that has built in wear leveling. We are looking into ways to have better wear leveling of flash drive devices used for the rootfs storage.
 -
 
 **Please email me if you would like to be part of the development team.**
