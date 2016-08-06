@@ -6,11 +6,11 @@
 
 https://github.com/kaloz/mwlwifi
 
-###Wireless driver is upgraded to version 10.3.0.17-20160324 and firmware of 88W8864 to version 7.2.9.2
+###Wireless driver is upgraded to version 10.3.0.17-20160531-1
 
-##New Rootfs update V1.1.0
+##New Rootfs V4.4.16
 
-Linux Kernel version is "4.2.4".
+Linux Kernel version is "4.4.16".
 
 Debian root files system is "Jessie" stable.
 
@@ -21,7 +21,7 @@ McDebian compatible with the below Linksys WRT models:
 1. WRT1900AC V1
 2. WRT1900AC V2
 3. WRT1200AC V1
-4. WRT1900ACS V1 (NOT TESTED)
+4. WRT1900ACS V1
 
 ## McDebian Deployment Instructions
 https://github.com/Chadster766/McDebian/wiki
