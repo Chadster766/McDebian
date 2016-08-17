@@ -29,8 +29,6 @@ https://github.com/Chadster766/McDebian/wiki
 -
 ##Warning!
 
-Flashing the McDebian firmware must only be done using a USB to Serial cable. 
-
 ##Notice: For rootfs USB Flash drives I recommend using Corsair or Sandisk because Wear Leveling is built into the hardware. For mass storage you can use spinning disk external drive or any other type of disk that has built in wear leveling.
 -
 
