@@ -1,0 +1,56 @@
+#!/bin/bash
+
+logger "WPS starting..."
+TIMER=0
+wps_state_wlan0=`hostapd_cli -i wlan0 get_config  2>/dev/null | grep wps_state | cut -d= -f2`
+wps_state_wlan1=`hostapd_cli -i wlan1 get_config  2>/dev/null | grep wps_state | cut -d= -f2`
+
+if [ "$wps_state_wlan0" = "disabled" ] && [ "$wps_state_wlan1" = "disabled" ]
+then
+		logger "The WPS feature is disabled."
+		exit 1
+else
+	ifaces=""
+	if [[ "$wps_state_wlan0" == "configured" ]]; then
+		ifaces="wlan0"
+	fi
+	
+	if [[ "$wps_state_wlan1" == "configured" ]]; then
+		ifaces=${ifaces}" wlan1"
+	fi
+
+	for iface in $ifaces
+	do
+			logger "Enabling WPS for interface: $iface"
+			hostapd_cli -i $iface -p /var/run/hostapd/ wps_pbc
+			lastiface=$iface
+	done
+	
+	echo "255" > /sys/class/leds/mamba:amber:wps/brightness
+	logger "WPS activated for 15s or until it gets a request."
+	flash=1
+	is_wps_active=`hostapd_cli -i $lastiface wps_get_status | grep "PBC Status" | cut -d " " -f 3`
+	while [[ "$is_wps_active" == "Active" ]]
+	do
+			is_wps_active=`hostapd_cli -i $lastiface wps_get_status | grep "PBC Status" | cut -d " " -f 3`
+
+			if [[ "$flash" == "1" ]]
+			then
+					echo "255" > /sys/class/leds/mamba:amber:wps/brightness
+					flash=0
+			else
+					echo "0" > /sys/class/leds/mamba:amber:wps/brightness
+					flash=1
+			fi
+			sleep 1
+	done
+
+	for iface in $ifaces
+	do
+			hostapd_cli -i $iface wps_cancel
+			logger "WPS has been deactivated for interface: $iface"
+	done 
+	echo "0" > /sys/class/leds/mamba:amber:wps/brightness
+
+	sleep 3
+fi
