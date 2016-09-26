@@ -1,0 +1,13 @@
+[Unit]
+Description=GPIO Keys Control
+Documentation=
+After=hostapd.service
+
+[Service]
+ExecStart=/etc/systemd/gpio_keys
+Type=simple
+NonBlocking=yes
+
+
+[Install]
+WantedBy=multi-user.target

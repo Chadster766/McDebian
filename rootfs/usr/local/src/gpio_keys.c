@@ -30,7 +30,7 @@ int main (int argc, char *argv[])
 	struct input_event ev[64];
 	int fd, rd, value, size = sizeof (struct input_event);
 	char name[256]= "\0";;
-	char device[19]= "/dev/input/event0";
+	char device[19]= "/dev/input/event0\0";
 	char* led_wps_amber="/sys/class/leds/mamba\\:amber\\:wps/brightness\0";
 	char* led_wps_white="/sys/class/leds/mamba\\:white\\:wps/brightness\0";
 	char* led_pwr="/sys/class/leds/mamba\\:white\\:power/brightness\0";
@@ -38,7 +38,7 @@ int main (int argc, char *argv[])
 	char cmd[256]="\0";
 	int WPS_KEY=0;
 	int RESET_KEY=0;
-    FILE* fichier = NULL;
+    	FILE* fichier = NULL;
 
 
 	//Open Device
@@ -55,45 +55,44 @@ int main (int argc, char *argv[])
 		strcpy(cmd,"");
 		WPS_KEY=0;
 		if ((rd = read (fd, ev, size * 64)) < size)
-			perror_exit ("read()");    
-		
+			perror_exit ("read()");
+
 		fichier = fopen("/var/run/gpio_keys", "w");
-		
+
 		switch(ev[0].code){
 			case 529:/*WPS 0x0211*/
-				if (ev[0].value==1){ // open
-				
+				if (ev[0].value==1){ // press
+
 					strcpy(cmd,"echo 255>");
 					strcat(cmd,led_wps_white);
 					system(cmd);
-					
-					
+
 					if (fichier != NULL){
 						fprintf(fichier, "%d\n", ev[0].code);
-					}	
+					}
 				}
-				else {// close
-				
+				else {// relaxe
+
 					strcpy(cmd,"echo 0 >");
 					strcat(cmd,led_wps_white);
 					system(cmd);
 					system(wps);
 				}
-				
+
 			break;
 			case 408:/*RESET 0x0198*/
-				if (ev[0].value==1){ // open
-				
+				if (ev[0].value==1){ // press
+
 					strcpy(cmd,"echo 0 >");
 					strcat(cmd,led_pwr);
 					system(cmd);
-					
+
 					if (fichier != NULL){
 						fprintf(fichier, "%d\n", ev[0].code);
-					}	
+					}
 				}
-				else {// close
-				
+				else {// relaxe
+
 					strcpy(cmd,"echo 255 >");
 					strcat(cmd,led_pwr);
 					system(cmd);
@@ -101,12 +100,12 @@ int main (int argc, char *argv[])
 			break;
 			default:
 			break;
-		}	
+		}
 
 		if (fichier != NULL){
 			fclose(fichier);
-		}	
-	
+		}
+
 	}
 	return 0;
-} 
+}
