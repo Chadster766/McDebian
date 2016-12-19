@@ -10,7 +10,7 @@ https://github.com/kaloz/mwlwifi
 
 ##Rootfs V4.4.16
 
-Linux Kernel version is "4.4.16".
+Linux version is "4.4.16".
 
 Debian root files system is "Jessie" stable.
 
@@ -20,7 +20,7 @@ Wireless driver is version 10.3.0.17-20160531-1
 
 ##McDebian Update V4.7.5
 
-Linux Kernel version is "4.7.5".
+Linux version is "4.7.5".
 
 Debian root files system is "Jessie" stable.
 
@@ -28,7 +28,17 @@ Dibbler version is "1.0.1"
 
 Wireless driver is version 10.3.0.18-20160823-1
 
-##McDebian is compatible with the below Linksys WRT models:
+##McDebian Update V4.8.15
+
+Linux version is "4.8.15".
+
+Debian root files system is "Jessie" stable.
+
+Dibbler version is "1.0.1"
+
+Wireless driver is version 10.3.2.0-20161124
+
+##McDebian is compatible with the below Linksys WRT models:i
 
 1. WRT1900AC V1
 2. WRT1900AC V2
@@ -36,7 +46,7 @@ Wireless driver is version 10.3.0.18-20160823-1
 4. WRT1200AC V2
 5. WRT1900ACS V1
 6. WRT1900ACS V2
-7. WRT3200ACM V1 (Beta)
+7. WRT3200ACM V1
 
 ## McDebian Deployment Instructions
 https://github.com/Chadster766/McDebian/wiki
