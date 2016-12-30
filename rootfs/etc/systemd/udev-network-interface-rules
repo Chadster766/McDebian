@@ -7,10 +7,18 @@ then
     ifindex_eth1=2
     ifindex_wlan0=5
     ifindex_wlan1=4
-  else
+elif strings /dev/mtd3 | grep -w 'modelNumber=WRT3200ACM' >> /dev/null && strings /dev/mtd3 | grep 'hw_revision=1' >>  /dev/null
+then
+    # Interface mapping on a WRT3200ACM 
+    ifindex_eth0=3
+    ifindex_eth1=2
+    ifindex_wlan0=5
+    ifindex_wlan1=6
+    ifindex_mlan0=4
+else
     # Interface mapping on a WRT1200ac, WRT1900ac v2 and WRT1900acs
-    ifindex_eth0=2
-    ifindex_eth1=3
+    ifindex_eth0=3
+    ifindex_eth1=2
     ifindex_wlan0=4
     ifindex_wlan1=5
 fi
@@ -22,5 +30,6 @@ fi
     echo "SUBSYSTEM==\"net\", ATTR{ifindex}==\"${ifindex_eth1}\", NAME=\"eth1\"" >> /etc/udev/rules.d/70-persistent-net.rules
     echo "SUBSYSTEM==\"net\", ATTR{ifindex}==\"${ifindex_wlan0}\", NAME=\"wlan0\"" >> /etc/udev/rules.d/70-persistent-net.rules
     echo "SUBSYSTEM==\"net\", ATTR{ifindex}==\"${ifindex_wlan1}\", NAME=\"wlan1\"" >> /etc/udev/rules.d/70-persistent-net.rules
+    echo "SUBSYSTEM==\"net\", ATTR{ifindex}==\"${ifindex_mlan0}\", NAME=\"mlan0\"" >> /etc/udev/rules.d/70-persistent-net.rules
 
 exit 0

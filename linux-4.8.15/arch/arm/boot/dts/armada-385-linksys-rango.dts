@@ -325,7 +325,7 @@
 		pinctrl-0 = <&keys_pin>;
 		pinctrl-names = "default";
 
-		button@1 {
+/*		button@1 {
 			label = "WPS";
 			linux,code = <KEY_WPS_BUTTON>;
 			gpios = <&gpio0 24 GPIO_ACTIVE_LOW>;
@@ -336,6 +336,7 @@
 			linux,code = <KEY_RESTART>;
 			gpios = <&gpio0 29 GPIO_ACTIVE_LOW>;
 		};
+*/
 	};
 
 	gpio-leds {
@@ -344,7 +345,7 @@
 		pinctrl-names = "default";
 
 		power {
-			gpios = <&gpio1 25 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio1 24 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
 
