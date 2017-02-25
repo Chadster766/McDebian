@@ -76,6 +76,10 @@ Dibbler version is "1.0.1"
 
 Wireless driver is version 10.3.2.0-20170110
 
+###Notes:
+
+1. EU country code no longer required for mwlwifi in this driver version
+
 ##McDebian is compatible with the below Linksys WRT models:
 
 1. WRT1900AC V1
