@@ -66,7 +66,7 @@ MWIFIEX_SDIO
 1. WRT3200ACM V1 support for the third radio MWIFIEX which is interface mlan0. You will need to add this to /etc/network/interfaces, /etc/default/hostapd and create /etc/hostapd/mlan0.conf file to put this radio into operation.
 1. Updated /etc/systemd/udev-network-interface-rules to work with WRT3200ACM's additional wireless interface.
 
-##McDebian Update V4.7.5
+##McDebian Update V4.9.12
 
 Linux version is "4.9.12".
 
