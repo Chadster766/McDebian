@@ -6,7 +6,7 @@
 
 https://github.com/kaloz/mwlwifi
 
-###Wireless driver is upgraded to version 10.3.0.17-20160531-1
+###Wireless driver is upgraded to version 10.3.2.0-20170110
 
 ##Rootfs V4.4.16
 
@@ -65,6 +65,16 @@ MWIFIEX_SDIO
 
 1. WRT3200ACM V1 support for the third radio MWIFIEX which is interface mlan0. You will need to add this to /etc/network/interfaces, /etc/default/hostapd and create /etc/hostapd/mlan0.conf file to put this radio into operation.
 1. Updated /etc/systemd/udev-network-interface-rules to work with WRT3200ACM's additional wireless interface.
+
+##McDebian Update V4.7.5
+
+Linux version is "4.9.12".
+
+Debian root files system is "Jessie" stable.
+
+Dibbler version is "1.0.1"
+
+Wireless driver is version 10.3.2.0-20170110
 
 ##McDebian is compatible with the below Linksys WRT models:
 
