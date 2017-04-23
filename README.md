@@ -6,9 +6,9 @@
 
 https://github.com/kaloz/mwlwifi
 
-###Wireless driver is upgraded to version 10.3.2.0-20170110
+### Wireless driver is upgraded to version 10.3.2.0-20170110
 
-##Rootfs V4.4.16
+## Rootfs V4.4.16
 
 Linux version is "4.4.16".
 
@@ -18,7 +18,7 @@ Dibbler version is "1.0.1"
 
 Wireless driver is version 10.3.0.17-20160531-1
 
-##McDebian Update V4.7.5
+## McDebian Update V4.7.5
 
 Linux version is "4.7.5".
 
@@ -28,7 +28,7 @@ Dibbler version is "1.0.1"
 
 Wireless driver is version 10.3.0.18-20160823-1
 
-##McDebian Update V4.8.15
+## McDebian Update V4.8.15
 
 Linux version is "4.8.15".
 
@@ -66,7 +66,7 @@ MWIFIEX_SDIO
 1. WRT3200ACM V1 support for the third radio MWIFIEX which is interface mlan0. You will need to add this to /etc/network/interfaces, /etc/default/hostapd and create /etc/hostapd/mlan0.conf file to put this radio into operation.
 1. Updated /etc/systemd/udev-network-interface-rules to work with WRT3200ACM's additional wireless interface.
 
-##McDebian Update V4.9.12
+## McDebian Update V4.9.12
 
 Linux version is "4.9.12".
 
@@ -76,11 +76,11 @@ Dibbler version is "1.0.1"
 
 Wireless driver is version 10.3.2.0-20170110
 
-###Notes:
+### Notes:
 
 1. EU country code no longer required for mwlwifi in this driver version
 
-##McDebian is compatible with the below Linksys WRT models:
+## McDebian is compatible with the below Linksys WRT models:
 
 1. WRT1900AC V1
 2. WRT1900AC V2
@@ -94,9 +94,9 @@ Wireless driver is version 10.3.2.0-20170110
 https://github.com/Chadster766/McDebian/wiki
 
 -
-##Warning!
+## Warning!
 
-##Notice: For rootfs USB Flash drives I recommend using Corsair or Sandisk because Wear Leveling is built into the hardware. For mass storage you can use spinning disk external drive or any other type of disk that has built in wear leveling.
+## Notice: For rootfs USB Flash drives I recommend using Corsair or Sandisk because Wear Leveling is built into the hardware. For mass storage you can use spinning disk external drive or any other type of disk that has built in wear leveling.
 -
 
 **Please email me if you would like to be part of the development team.**
