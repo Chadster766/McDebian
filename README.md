@@ -1,6 +1,6 @@
 # McDebian
 
-## A Linksys WRT3200, WRT1900, WRT1200 and WRT3200 Router Series Debian Implementation
+## A Linksys WRT1900, WRT1200 and WRT3200 Router Series Debian Implementation
 
 **Source of Marvell 802.11ac hostapd driver**
 
