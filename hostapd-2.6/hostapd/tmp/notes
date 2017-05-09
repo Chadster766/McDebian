@@ -1,0 +1,10 @@
+checkinstall --install=no
+
+Enter a number to change any of them or press ENTER to continue: 3
+Enter new version:
+>> 2.6.0
+
+cp hostapd /usr/sbin
+cp hostapd_cli /usr/sbin
+tar zcf McDebian-hostapd-2.6.tar.gz /usr/sbin/hostapd /usr/sbin/hostapd_cli
+
