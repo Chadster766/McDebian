@@ -6,7 +6,7 @@
 
 https://github.com/kaloz/mwlwifi
 
-### Wireless driver is upgraded to version 10.3.4.0-20170421
+### Wireless driver upgraded to version 10.3.4.0-20170421
 
 ## McDebian Update 4.9.26 available
 
