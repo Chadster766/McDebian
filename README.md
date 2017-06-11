@@ -6,9 +6,9 @@
 
 https://github.com/kaloz/mwlwifi
 
-### Wireless driver upgraded to version 10.3.4.0-20170421
+### Wireless driver upgraded to version 10.3.4.0-20170606
 
-## McDebian Update 4.9.26 available
+## McDebian Update 4.9.31 available
 
 ## McDebian is compatible with the below Linksys WRT models:
 
