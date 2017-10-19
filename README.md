@@ -25,8 +25,7 @@ https://github.com/Chadster766/McDebian/wiki
 
 ## McDebian Security Advisory
 
-###Debian Security Advisory:
-https://www.debian.org/security/2017/dsa-3999
+Debian Security Advisory: https://www.debian.org/security/2017/dsa-3999
 
 KRACK Vulnerability Fix:
 
