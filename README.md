@@ -25,17 +25,19 @@ https://github.com/Chadster766/McDebian/wiki
 
 ## McDebian Security Advisory
 
-Debian Security Advisory:
+###Debian Security Advisory:
 https://www.debian.org/security/2017/dsa-3999
 
 KRACK Vulnerability Fix:
 
 Login your McDebian router and run the below commands to get the Debian security fixes for this vulnerablity.
 
+```
 apt-get update
 apt-get install hostapd
 dpkg -P wpa-supplicant
 apt-get install wpasupplicant
+```
 
 ## Warning!
 
