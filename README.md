@@ -23,6 +23,20 @@ https://github.com/kaloz/mwlwifi
 ## McDebian Deployment Instructions
 https://github.com/Chadster766/McDebian/wiki
 
+## McDebian Security Advisory
+
+Debian Security Advisory:
+https://www.debian.org/security/2017/dsa-3999
+
+KRACK Vulnerability Fix:
+
+Login your McDebian router and run the below commands to get the Debian security fixes for this vulnerablity.
+
+apt-get update
+apt-get install hostapd
+dpkg -P wpa-supplicant
+apt-get install wpasupplicant
+
 ## Warning!
 
 ## Notice: For rootfs USB Flash drives I recommend using Corsair or Sandisk because Wear Leveling is built into the hardware. For mass storage you can use spinning disk external drive or any other type of disk that has built in wear leveling.
