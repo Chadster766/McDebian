@@ -19,5 +19,5 @@
 #
 #DAEMON_OPTS=""
 
-DAEMON_CONF="/etc/hostapd/wlan0.conf /etc/hostapd/wlan1.conf"
+DAEMON_CONF="/etc/hostapd/wlp1s0.conf /etc/hostapd/wlp2s0.conf"
 

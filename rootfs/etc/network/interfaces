@@ -2,27 +2,60 @@
 # Include files from /etc/network/interfaces.d:
 source-directory /etc/network/interfaces.d
 
-auto lo br0
-
+auto lo
 iface lo inet loopback
-	
-allow-hotplug wlan0
-iface wlan0 inet manual
-	
-allow-hotplug wlan1
-iface wlan1 inet manual
-	
-allow-hotplug eth0 eth1
 
-iface eth0 inet dhcp
-	pre-up /etc/dibbler/mcdebian-set-mac
+#auto eth0 -- Do not uncomment it will cause major startup delays
+iface eth0 inet manual
+
+auto eth1
+iface eth1 inet manual
+
+auto lan1
+iface lan1 inet manual
+	#locally administered mac address
+        hwaddress ether 02:3b:45:92:19:06
+
+auto lan2
+iface lan2 inet manual
+	hwaddress ether 02:4a:dc:6f:cd:7d
+
+auto lan3
+iface lan3 inet manual
+	hwaddress ether 02:3d:2b:d9:b5:d5
+
+auto lan4
+iface lan4 inet manual
+	hwaddress ether 02:e0:96:70:5f:c3
+
+auto wlp1s0
+iface wlp1s0 inet manual
+	#locally administered mac address that ends with zero for multi SSID mac address generation
+        pre-up ip link set wlp1s0 address 02:7a:03:6d:bb:40
+	
+auto wlp2s0
+iface wlp2s0 inet manual
+	pre-up ip link set wlp2s0 address 02:b1:77:35:c7:e0
+
+auto wan
+iface wan inet dhcp
+	pre-up /etc/network/mcdebian-set-wan-mac-address
 	pre-up iptables-restore < /etc/iptables.up.rules
 	pre-up ip6tables-restore < /etc/ip6tables.up.rules
+	up sleep 5
+	#The below line shouldn't be required with McDebian IPv6 NAT and the McDebian dhcpd6 server setup
+	#up dhclient -1 -6 -cf /etc/dhcp/dhclient6.conf -lf /var/lib/dhcp/dhclient6.wan.leases -v wan || true
 
+auto br0
 iface br0 inet static
-	bridge_ports eth1 wlan1 wlan0
+	bridge_hw 02:2d:50:bd:ca:13
+	bridge_ports lan1 lan2 lan3 lan4 wlp1s0 wlp2s0
 	address 192.168.1.1
 	netmask 255.255.255.0
 	network 192.168.1.0
 	broadcast 192.168.1.255
+	post-up /etc/network/mcdebian-wrt1900acV1-wrt3200-wlan
 
+iface br0 inet6 static
+	address fc00::1
+	netmask 64

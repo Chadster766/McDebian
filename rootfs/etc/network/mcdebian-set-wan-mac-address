@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ETH0MAC=`strings /dev/mtd3|grep hw_mac_addr|cut -d= -f2`
+ip link set dev wan address $ETH0MAC
+

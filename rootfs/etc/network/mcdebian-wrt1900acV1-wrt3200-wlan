@@ -1,0 +1,21 @@
+#!/bin/sh
+
+MODEL_NUMBER=`strings /dev/mtd3 | grep 'modelNumber='`
+HARDWARE_VERSION=`strings /dev/mtd3 | grep 'hw_revision='`
+logger "mcdebian: $MODEL_NUMBER $HARDWARE_VERSION"
+
+if  strings /dev/mtd3 | grep -w 'modelNumber=WRT3200ACM' >> /dev/null
+then
+	logger "mcdebian: WRT3200ACM Detected"
+else
+	logger "mcdebian: WRT3200ACM Not Detected"
+        ip link set eth0 up
+fi
+
+if  strings /dev/mtd3 | grep -w 'modelNumber=WRT1900AC' >> /dev/null  &&  strings /dev/mtd3 | grep 'hw_revision=1' >>  /dev/null
+then
+	logger "mcdebian: WRT1900AC V1 Detected"
+	sed -i 's/wlp1s0/wlp3s0/g' /etc/hostapd/wlp1s0.conf
+else
+	sed -i 's/wlp3s0/wlp1s0/g' /etc/hostapd/wlp1s0.conf
+fi
