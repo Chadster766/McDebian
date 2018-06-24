@@ -62,11 +62,13 @@
 	usb2@5 {
 		label = "rango:white:usb2";
 		reg = <0x5>;
+		linux,default-trigger = "usbport";
 	};
 
 	usb3_1@6 {
 		label = "rango:white:usb3_1";
 		reg = <0x6>;
+		linux,default-trigger = "usbport";
 	};
 
 	usb3_2@7 {
