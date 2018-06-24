@@ -1,0 +1,20 @@
+#!/bin/sh
+
+result=false
+
+while [ ! "$result" = true ]
+do
+	sleep 1
+	if  [ 'ip link show eth1 | grep -c "UP"' = 0 ] || \
+		[ 'ip link show lan1 | grep -c "UP"' = 0 ] || \
+		[ 'ip link show lan2 | grep -c "UP"' = 0 ] || \
+		[ 'ip link show lan3 | grep -c "UP"' = 0 ] || \
+		[ 'ip link show lan4 | grep -c "UP"' = 0 ] >> /dev/null
+	then
+	        logger "mcdebian: DSA Interfaces not ready"
+		result=false
+	else
+	        logger "mcdebian: DSA Interfaces ready"
+        	result=true
+	fi
+done
