@@ -30,9 +30,6 @@ iface wan inet dhcp
 
 iface wan inet6 auto
 	pre-up ip6tables-restore < /etc/ip6tables.up.rules
-	up sleep 5
-	#The below line shouldn't be required with McDebian IPv6 NAT and the McDebian dhcpd6 server setup
-	#up dhclient -1 -6 -cf /etc/dhcp/dhclient6.conf -lf /var/lib/dhcp/dhclient6.wan.leases -v wan || true
 
 auto br0
 iface br0 inet static

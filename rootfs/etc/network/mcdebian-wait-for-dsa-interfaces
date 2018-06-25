@@ -2,19 +2,29 @@
 
 result=false
 
-while [ ! "$result" = true ]
+while [ ! $result = true ]
 do
 	sleep 1
-	if  [ 'ip link show eth1 | grep -c "UP"' = 0 ] || \
-		[ 'ip link show lan1 | grep -c "UP"' = 0 ] || \
-		[ 'ip link show lan2 | grep -c "UP"' = 0 ] || \
-		[ 'ip link show lan3 | grep -c "UP"' = 0 ] || \
-		[ 'ip link show lan4 | grep -c "UP"' = 0 ] >> /dev/null
+	if [ $(ip link show eth0 | grep -c "UP") -eq 0 ] >> /dev/null || \
+		[ $(ip link show eth1 | grep -c "UP") -eq 0 ] >> /dev/null || \
+		[ $(ip link show wan | grep -c "UP") -eq 0 ] >> /dev/null || \
+		[ $(ip link show lan1 | grep -c "UP") -eq 0 ] >> /dev/null || \
+		[ $(ip link show lan2 | grep -c "UP") -eq 0 ] >> /dev/null || \
+		[ $(ip link show lan3 | grep -c "UP") -eq 0 ] >> /dev/null || \
+		[ $(ip link show lan4 | grep -c "UP") -eq 0 ] >>  /dev/null
 	then
-	        logger "mcdebian: DSA Interfaces not ready"
-		result=false
-	else
-	        logger "mcdebian: DSA Interfaces ready"
-        	result=true
+                echo "mcdebian: DSA Interfaces not ready" > /dev/kmsg
+		echo "mcdebian: Bringing up all DSA interfaces" > /dev/kmsg
+               	ip link set eth0 up
+		ip link set eth1 up
+		ip link set wan up
+                ip link set lan1 up
+                ip link set lan2 up
+                ip link set lan3 up
+                ip link set lan4 up
+                result=false
+	else	
+		echo "mcdebian: All DSA Interfaces ready" > /dev/kmsg
+		result=true
 	fi
 done

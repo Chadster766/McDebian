@@ -1,5 +1,11 @@
 #!/bin/sh
 
 ETH0MAC=`strings /dev/mtd3|grep hw_mac_addr|cut -d= -f2`
-ip link set dev wan address $ETH0MAC
 
+if [ ! $ETH0MAC ]
+then
+	echo "mcdebian: Devinfo is corrupted, no MAC Address found" > /dev/kmsg
+else
+	echo "mcdebian: Setting wan MAC Address: $ETH0MAC" > /dev/kmsg
+	ip link set dev wan address $ETH0MAC
+fi
