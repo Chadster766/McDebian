@@ -11,10 +11,23 @@ else
 	if [ $MODEL_NUMBER = 'modelNumber=WRT1900AC' ] && [ $HARDWARE_VERSION = 'hw_revision=1' ]
 	then
 		echo "mcdebian: WRT1900AC V1 Detected" > /dev/kmsg
+		if [ `systemctl is-enabled fancontrol` = disabled ]
+		then
+			echo "mcdebian: Enabling and starting Fancontrol" > /dev/kmsg
+			`systemctl enable fancontrol` >> /dev/null
+			`systemctl start fancontrol` >> /dev/null
+		fi
 		echo "mcdebian: Changing wireless interfaces for WRT1900AC V1" > /dev/kmsg
 		sed -i 's/wlp1s0/wlp3s0/g' /etc/hostapd/wlp1s0.conf
 	else
-		echo "mcdebian: Changing wireless interfaces to newer WRTxxxx AC\\S\\M models" > /dev/kmsg
+		echo "mcdebian: Newer WRTxxxx AC\\S\\M model Detected" > /dev/kmsg
+		if [ `systemctl is-enabled fancontrol` = enabled ]
+                then
+                        echo "mcdebian: Stopping and Disabling Fancontrol" > /dev/kmsg
+                        `systemctl stop fancontrol` >> /dev/null
+                        `systemctl disable fancontrol` >> /dev/null
+                fi
+		echo "mcdebian: Changing wireless interfaces for newer WRTxxxx AC\\S\\M models" > /dev/kmsg
 		sed -i 's/wlp3s0/wlp1s0/g' /etc/hostapd/wlp1s0.conf
 	fi
 fi
