@@ -19,6 +19,9 @@ else
 		fi
 		echo "mcdebian: Changing wireless interfaces for WRT1900AC V1" > /dev/kmsg
 		sed -i 's/wlp1s0/wlp3s0/g' /etc/hostapd/wlp1s0.conf
+		echo "mcdebian: Setting MAC Address on wan and br0" > /dev/kmsg
+		ip link set wan address 02:e0:96:70:5f:c3
+		ip link set br0 address 02:2d:50:bd:ca:13
 	else
 		echo "mcdebian: Newer WRTxxxx AC\\S\\M model Detected" > /dev/kmsg
 		if [ `systemctl is-enabled fancontrol` = enabled ]
@@ -31,3 +34,4 @@ else
 		sed -i 's/wlp3s0/wlp1s0/g' /etc/hostapd/wlp1s0.conf
 	fi
 fi
+

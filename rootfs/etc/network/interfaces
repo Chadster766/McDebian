@@ -5,6 +5,9 @@ source-directory /etc/network/interfaces.d
 auto lo
 iface lo inet loopback
 
+auto eth0
+iface eth0 inet manual
+
 auto eth1
 iface eth1 inet manual
 
@@ -24,9 +27,9 @@ iface wlp1s0 inet manual
 	
 iface wlp2s0 inet manual
 
+auto wan
 iface wan inet dhcp
-	up /etc/network/mcdebian-set-wan-mac-address
-	up iptables-restore < /etc/iptables.up.rules
+	pre-up iptables-restore < /etc/iptables.up.rules
 
 iface wan inet6 auto
 	pre-up ip6tables-restore < /etc/ip6tables.up.rules
@@ -38,8 +41,7 @@ iface br0 inet static
 	netmask 255.255.255.0
 	network 192.168.1.0
 	broadcast 192.168.1.255
-	up /etc/network/mcdebian-wait-for-dsa-interfaces
-	post-up /etc/network/mcdebian-wrt1900acV1-wrt3200-wlan
+	post-up /etc/network/mcdebian-model-check
 
 iface br0 inet6 static
 	address fc00::1
