@@ -1,0 +1,30 @@
+diff --git a/drivers/mtd/nand/raw/marvell_nand.c b/drivers/mtd/nand/raw/marvell_nand.c
+index ebb1d14..1899f10 100644
+--- a/drivers/mtd/nand/raw/marvell_nand.c
++++ b/drivers/mtd/nand/raw/marvell_nand.c
+@@ -2567,12 +2567,6 @@ static int marvell_nand_chips_init(struct device *dev, struct marvell_nfc *nfc)
+ 	else
+ 		nchips = of_get_child_count(np);
+ 
+-	if (nchips > max_cs) {
+-		dev_err(dev, "too many NAND chips: %d (max = %d CS)\n", nchips,
+-			max_cs);
+-		return -EINVAL;
+-	}
+-
+ 	/*
+ 	 * Legacy bindings do not use child nodes to exhibit NAND chip
+ 	 * properties and layout. Instead, NAND properties are mixed with the
+@@ -2584,6 +2578,12 @@ static int marvell_nand_chips_init(struct device *dev, struct marvell_nfc *nfc)
+ 		return ret;
+ 	}
+ 
++	if (nchips > max_cs) {
++                dev_err(dev, "too many NAND chips: %d (max = %d CS)\n", nchips,
++                        max_cs);
++                return -EINVAL;
++        }
++
+ 	for_each_child_of_node(np, nand_np) {
+ 		ret = marvell_nand_chip_init(dev, nfc, nand_np);
+ 		if (ret) {

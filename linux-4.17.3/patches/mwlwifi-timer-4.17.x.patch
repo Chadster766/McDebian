@@ -1,0 +1,28 @@
+diff --git a/drivers/mwlwifi/core.c b/drivers/mwlwifi/core.c
+index 792939e..e119a10 100644
+--- a/drivers/mwlwifi/core.c
++++ b/drivers/mwlwifi/core.c
+@@ -684,10 +684,10 @@ static irqreturn_t mwl_isr(int irq, void *dev_id)
+        return mwl_hif_irq_handler(hw);
+ }
+
+-static void timer_routine(unsigned long data)
++static void timer_routine(struct timer_list *t)
+ {
+-       struct ieee80211_hw *hw = (struct ieee80211_hw *)data;
+-       struct mwl_priv *priv = hw->priv;
++       struct mwl_priv *priv = from_timer(priv, t, period_timer);
++       struct ieee80211_hw *hw = priv->hw;
+
+        mwl_hif_timer_routine(hw);
+
+@@ -853,7 +853,7 @@ static int mwl_wl_init(struct mwl_priv *priv)
+                goto err_register_irq;
+        }
+
+-       setup_timer(&priv->period_timer, timer_routine, (unsigned long)hw);
++       timer_setup(&priv->period_timer, timer_routine, 0);
+        mod_timer(&priv->period_timer, jiffies +
+                  msecs_to_jiffies(SYSADPT_TIMER_WAKEUP_TIME));
+
+
