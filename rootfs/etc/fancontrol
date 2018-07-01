@@ -8,3 +8,4 @@ MINTEMP= hwmon7/pwm1=50
 MAXTEMP= hwmon7/pwm1=80
 MINSTART= hwmon7/pwm1=75
 MINSTOP= hwmon7/pwm1=20
+
