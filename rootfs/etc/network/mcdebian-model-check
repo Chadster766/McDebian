@@ -5,31 +5,35 @@ HARDWARE_VERSION=`strings /dev/mtd3 | grep 'hw_revision='`
 
 if [ ! $MODEL_NUMBER ]
 then
-	echo "mcdebian: Devinfo is corrupted, no MODEL_NUMBER found" > /dev/kmsg
+        echo "mcdebian: Devinfo is corrupted, no MODEL_NUMBER found" > /dev/kmsg
 else
-	echo "mcdebian: $MODEL_NUMBER $HARDWARE_VERSION" > /dev/kmsg
-	if [ $MODEL_NUMBER = 'modelNumber=WRT1900AC' ] && [ $HARDWARE_VERSION = 'hw_revision=1' ]
-	then
-		echo "mcdebian: WRT1900AC V1 Detected" > /dev/kmsg
-		if [ `systemctl is-enabled fancontrol` = disabled ]
-		then
-			echo "mcdebian: Enabling and starting Fancontrol" > /dev/kmsg
-			`systemctl enable fancontrol` >> /dev/null
-			`systemctl start fancontrol` >> /dev/null
-		fi
-		echo "mcdebian: Changing wireless interfaces for WRT1900AC V1" > /dev/kmsg
-		sed -i 's/wlp1s0/wlp3s0/g' /etc/hostapd/wlp1s0.conf
-	else
-		echo "mcdebian: Newer WRTxxxx AC\\S\\M model Detected" > /dev/kmsg
-		if [ `systemctl is-enabled fancontrol` = enabled ]
+        echo "mcdebian: $MODEL_NUMBER $HARDWARE_VERSION" > /dev/kmsg
+        if [ $MODEL_NUMBER = 'modelNumber=WRT1900AC' ] && [ $HARDWARE_VERSION = 'hw_revision=1' ]
+        then
+                echo "mcdebian: WRT1900AC V1 Detected" > /dev/kmsg
+                if [ `systemctl is-enabled fancontrol` = disabled ]
+                then
+                        echo "mcdebian: Enabling and starting Fancontrol" > /dev/kmsg
+                        `systemctl enable fancontrol` >> /dev/null
+                        `systemctl start fancontrol` >> /dev/null
+                fi
+                echo "mcdebian: Changing wireless interfaces for WRT1900AC V1" > /dev/kmsg
+                sed -i 's/wlp1s0/wlp3s0/g' /etc/hostapd/wlp1s0.conf
+                echo "mcdebian: Changing fw_env.config to match newer WRTxxxx AC\\S\\M models" > /dev/kmsg
+                sed -i 's/^\/dev\/mtd1.*/\/dev\/mtd1       0x0        0x40000      0x20000/' /etc/fw_env.config
+        else
+                echo "mcdebian: Newer WRTxxxx AC\\S\\M model Detected" > /dev/kmsg
+                if [ `systemctl is-enabled fancontrol` = enabled ]
                 then
                         echo "mcdebian: Stopping and Disabling Fancontrol" > /dev/kmsg
                         `systemctl stop fancontrol` >> /dev/null
                         `systemctl disable fancontrol` >> /dev/null
                 fi
-		echo "mcdebian: Changing wireless interfaces for newer WRTxxxx AC\\S\\M models" > /dev/kmsg
-		sed -i 's/wlp3s0/wlp1s0/g' /etc/hostapd/wlp1s0.conf
-	fi
+                echo "mcdebian: Changing wireless interfaces for newer WRTxxxx AC\\S\\M models" > /dev/kmsg
+                sed -i 's/wlp3s0/wlp1s0/g' /etc/hostapd/wlp1s0.conf
+                echo "mcdebian: Changing fw_env.config to match newer WRTxxxx AC\\S\\M models" > /dev/kmsg
+                sed -i 's/^\/dev\/mtd1.*/\/dev\/mtd1    0x0        0x20000      0x40000/' /etc/fw_env.config
+        fi
 fi
 
 #The below website is handy to create Random Locally Administered Unicast MAC Addresses
@@ -37,8 +41,5 @@ fi
 
 echo "mcdebian: Setting MAC Address on wan and br0" > /dev/kmsg
 ip link set br0 address 02:2d:50:bd:ca:13
-ip link set wan down
-sleep 5
 ip link set wan address 02:e0:96:70:5f:c3
-ip link set wan up
 

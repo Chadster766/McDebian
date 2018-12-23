@@ -24,25 +24,25 @@ auto lan4
 iface lan4 inet manual
 
 iface wlp1s0 inet manual
-	
+
 iface wlp2s0 inet manual
 
 auto wan
 iface wan inet dhcp
-	pre-up iptables-restore < /etc/iptables.up.rules
+        pre-up iptables-restore < /etc/iptables.up.rules
+        pre-up ifup br0
 
 iface wan inet6 auto
-	pre-up ip6tables-restore < /etc/ip6tables.up.rules
+        pre-up ip6tables-restore < /etc/ip6tables.up.rules
 
-auto br0
 iface br0 inet static
-	bridge_ports lan1 lan2 lan3 lan4
-	address 192.168.1.1
-	netmask 255.255.255.0
-	network 192.168.1.0
-	broadcast 192.168.1.255
-	post-up /etc/network/mcdebian-model-check
+        bridge_ports lan1 lan2 lan3 lan4
+        address 192.168.1.1
+        netmask 255.255.255.0
+        network 192.168.1.0
+        broadcast 192.168.1.255
+        pre-up /etc/network/mcdebian-model-check
 
 iface br0 inet6 static
-	address fc00::1
-	netmask 64
+        address fc00::1
+        netmask 64
