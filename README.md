@@ -1,14 +1,12 @@
 # McDebian
 
-## A Linksys WRT1900, WRT1200 and WRT3200 Router Series Debian Implementation
+## A Linksys WRT1900, WRT1200, WRT3200 and WRT32X Router Series Debian Implementation
 
 **Source of Marvell 802.11ac hostapd driver**
 
 https://github.com/kaloz/mwlwifi
 
-### Wireless driver upgraded to version 10.3.4.0-20170606
-
-## McDebian Update 4.9.31 available
+### Wireless driver upgraded to mwlwifi version 10.3.8.0-20181210
 
 ## McDebian is compatible with the below Linksys WRT models:
 
@@ -19,24 +17,14 @@ https://github.com/kaloz/mwlwifi
 5. WRT1900ACS V1
 6. WRT1900ACS V2
 7. WRT3200ACM V1
+8. WRT32X
 
 ## McDebian Deployment Instructions
 https://github.com/Chadster766/McDebian/wiki
 
-## McDebian Security Advisory
+## McDebiddan Security Advisory
 
-Debian Security Advisory: https://www.debian.org/security/2017/dsa-3999
-
-KRACK Vulnerability Fix:
-
-Login your McDebian router and run the below commands to get the Debian security fixes for this vulnerablity.
-
-```
-apt-get update
-apt-get install hostapd
-dpkg -P wpa-supplicant
-apt-get install wpasupplicant
-```
+None at this time.
 
 ## Warning!
 
