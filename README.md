@@ -22,7 +22,7 @@ https://github.com/kaloz/mwlwifi
 ## McDebian Deployment Instructions
 https://github.com/Chadster766/McDebian/wiki
 
-## McDebiddan Security Advisory
+## McDebian Security Advisory
 
 None at this time.
 
