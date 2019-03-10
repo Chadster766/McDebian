@@ -32,4 +32,3 @@ None at this time.
 
 **Please email me if you would like to be part of the development team.**
 
-**Sorry I had a typo in the new rootfs download filename**
