@@ -29,6 +29,7 @@ iface wlp2s0 inet manual
 
 auto wan
 iface wan inet dhcp
+	hwaddress ether 02:e0:96:70:5f:c3 
 	pre-up iptables-restore < /etc/iptables.up.rules
 	pre-up ifup --ignore-errors br0
 
@@ -36,6 +37,7 @@ iface wan inet6 auto
 	pre-up ip6tables-restore < /etc/ip6tables.up.rules
 
 iface br0 inet static
+	bridge_hw 02:2d:50:bd:ca:13 
 	bridge_ports lan1 lan2 lan3 lan4
 	address 192.168.1.1
 	netmask 255.255.255.0
