@@ -1,0 +1,86 @@
+#These are my notes on how to build McDebian Linux kernel, driver modules and firmwares
+make ARCH=arm CROSS_COMPILE=arm-none-eabi- menuconfig
+
+make ARCH=arm CROSS_COMPILE=arm-none-eabi- -j8 modules
+
+make ARCH=arm CROSS_COMPILE=arm-none-eabi- -j8 zImage
+
+make ARCH=arm CROSS_COMPILE=arm-none-eabi- -j8 dtbs
+
+#Copy McDebian firmwares:
+cat arch/arm/boot/zImage arch/arm/boot/dts/armada-385-linksys-cobra.dtb > /tmp/X
+mv /tmp/X zImage-tmp
+mkimage -A arm -O linux -T kernel -C none -a 0x200000 -e 0x200000 -n "linux" -d zImage-tmp uImage
+cp uImage ../../McDebian-Firmwares/McDebian-Buster-WRT1900AC-V2-FW_VER1_kernel_4.19.91.img
+cat arch/arm/boot/zImage arch/arm/boot/dts/armada-xp-linksys-mamba.dtb > /tmp/X
+mv /tmp/X zImage-tmp
+mkimage -A arm -O linux -T kernel -C none -a 0x200000 -e 0x200000 -n "linux" -d zImage-tmp uImage
+cp uImage ../../McDebian-Firmwares/McDebian-Buster-WRT1900AC-V1-FW_VER1_kernel_4.19.91.img
+cat arch/arm/boot/zImage arch/arm/boot/dts/armada-385-linksys-caiman.dtb > /tmp/X
+mv /tmp/X zImage-tmp
+mkimage -A arm -O linux -T kernel -C none -a 0x200000 -e 0x200000 -n "linux" -d zImage-tmp uImage
+cp uImage ../../McDebian-Firmwares/McDebian-Buster-WRT1200AC-V1-FW_VER1_kernel_4.19.91.img
+cat arch/arm/boot/zImage arch/arm/boot/dts/armada-385-linksys-rango.dtb > /tmp/X
+mv /tmp/X zImage-tmp
+mkimage -A arm -O linux -T kernel -C none -a 0x200000 -e 0x200000 -n "linux" -d zImage-tmp uImage
+cp uImage ../../McDebian-Firmwares/McDebian-Buster-WRT3200ACM-V1-FW_VER1_kernel_4.19.91.img
+cat arch/arm/boot/zImage arch/arm/boot/dts/armada-385-linksys-venom.dtb > /tmp/X
+mv /tmp/X zImage-tmp
+mkimage -A arm -O linux -T kernel -C none -a 0x200000 -e 0x200000 -n "linux" -d zImage-tmp uImage
+cp zImage-tmp ../../McDebian-Firmwares/McDebian-Buster-WRT32X-V1-FW_VER1_kernel_4.19.91.img
+
+#Module updates
+rm -rf /srv/chroot/debian-buster-armhf/lib/modules/*
+rm -rf /srv/chroot/debian-buster-armhf/lib/firmware
+rm -rf /root/McDebian/Mcdebian-modules/previous
+mv /root/McDebian/Mcdebian-modules/new /root/McDebian/Mcdebian-modules/previous
+mkdir /root/McDebian/Mcdebian-modules/new
+rm -rf /root/McDebian/Mcdebian-modules/test/*
+
+make ARCH=arm CROSS_COMPILE=arm-none-eabi- INSTALL_MOD_PATH=/srv/chroot/debian-buster-armhf modules_install
+
+cd /root/McDebian/kernel/linux-firmware
+cp /root/McDebian/drivers/mwlwifi/bin/firmware/* mwlwifi
+make ARCH=arm CROSS_COMPILE=arm-none-eabi- DESTDIR=/srv/chroot/debian-buster-armhf install
+
+chroot /srv/chroot/debian-buster-armhf
+depmod -va 4.19.91
+exit
+
+rm -rf /root/McDebian/Mcdebian-modules/new/*
+cp -r /srv/chroot/debian-buster-armhf/lib/modules /root/McDebian/Mcdebian-modules/new
+cp -r /srv/chroot/debian-buster-armhf/lib/firmware /root/McDebian/Mcdebian-modules/new
+
+cd /root/McDebian/Mcdebian-modules
+
+rm -rf /root/McDebian/Mcdebian-modules/publish/*
+mkdir publish/lib
+cp -r new/* publish/lib
+cd /root/McDebian/Mcdebian-modules/publish
+tar zcf mcdebian-module-update.gz ./*
+
+cp mcdebian-module-update.gz /root/McDebian/McDebian-rootfs-updates/mcdebian-rootfs-kernel-modules-firmwares-updates-v4.19.91-ver1.gz
+
+#McDebian new kernel perparation
+make clean
+git init
+touch .scmversion
+cp ../linux-x/.gitignore .
+git add .
+git commit -a -m "getting rid of modules marked dirty"
+
+cp -r /root/McDebian/drivers/mwlwifi drivers
+
+cp ../linux-4.17.3/arch/arm/boot/dts/armada-385.dtsi arch/arm/boot/dts
+
+vimdiff arch/arm/boot/dts/armada-385-linksys-caiman.dts ../linux-4.14.5/arch/arm/boot/dts/armada-385-linksys-caiman.dts
+vimdiff arch/arm/boot/dts/armada-385-linksys-cobra.dts ../linux-4.14.5/arch/arm/boot/dts/armada-385-linksys-cobra.dts
+vimdiff arch/arm/boot/dts/armada-385-linksys-rango.dts ../linux-4.14.5/arch/arm/boot/dts/armada-385-linksys-rango.dts
+vimdiff arch/arm/boot/dts/armada-385-linksys-shelby.dts ../linux-4.14.5/arch/arm/boot/dts/armada-385-linksys-shelby.dts
+vimdiff arch/arm/boot/dts/armada-385-linksys-venom.dts ../linux-4.14.5/arch/arm/boot/dts/armada-385-linksys-venom.dts
+vimdiff arch/arm/boot/dts/armada-385-linksys.dtsi ../linux-4.14.5/arch/arm/boot/dts/armada-385-linksys.dtsi
+vimdiff arch/arm/boot/dts/armada-xp-linksys-mamba.dts ../linux-4.14.5/arch/arm/boot/dts/armada-xp-linksys-mamba.dts
+vimdiff arch/arm/boot/dts/armada-385.dtsi ../linux-4.14.5/arch/arm/boot/dts/armada-385.dtsi
+
+git commit -a -m "new kernel initialization complete"
+

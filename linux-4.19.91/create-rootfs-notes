@@ -1,0 +1,24 @@
+
+debootstrap --foreign --no-check-gpg --variant=minbase  --include=systemd,systemd-sysv,kmod,udev,iproute2,ifupdown,apt-utils,bridge-utils,crda,cron,ethtool,hostapd,htop,iptables,iputils-ping,isc-dhcp-client,isc-dhcp-common,isc-dhcp-server,iw,less,vim,man-db,manpages,mtd-utils,net-tools,netbase,ntp,pciutils,ppp,pppoe,pppoeconf,radvd,readline-common,traceroute,tree,u-boot-tools,usbutils,vlan,wget,whiptail,wireless-regdb,wireless-tools,xml-core,openssh-client,openssh-server,openssh-sftp-server,openssl,binutils,locales,hostapd,wpasupplicant --exclude=aptitude --arch=armhf buster /srv/chroot/debian-buster-armhf http://mirrors.ocf.berkeley.edu/debian
+
+cp /usr/bin/qemu-arm-static /srv/chroot/debian-buster-armhf/usr/bin/
+cp /etc/resolv.conf /srv/chroot/debian-buster-armhf/etc/
+chroot /srv/chroot/debian-buster-armhf
+/debootstrap/debootstrap --second-stage
+passwd -d root
+
+apt-get update
+
+passwd root
+
+echo MCDEBIAN > /etc/hostname
+
+rm /srv/chroot/debian-buster-armhf/etc/resolv.conf
+rm /srv/chroot/debian-buster-armhf/usr/bin/qemu-arm-static
+
+cd /srv/chroot/debian-buster-armhf
+tar -zcpf /root/McDebian/chroot/rootfs.tar.gz ./*
+
+#These were some prerequisits
+apt-get install qemu-user-static
+

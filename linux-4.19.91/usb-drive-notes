@@ -1,0 +1,19 @@
+#Backup USB Key rootfs
+umount /mnt/usbkey
+mount /dev/sdc1 /mnt/usbkey
+cd /mnt/usbkey
+
+rm root/.bash_history
+rm root/.lesshst
+rm root/.ssh/known_hosts
+rm etc/ssh/ssh_known_hosts
+
+tar zcf /root/McDebian/McDebian-rootfs-baselines/mcdebian-buster-router-wrt-1900-1200-3200-32x-kernel_4_19_1x-base.gz ./*
+
+#Create USB Key rootfs:
+mkfs.ext4 /dev/sdc1
+mount /dev/sdc1 /mnt/usbkey
+
+#Buster
+tar zxf /root/McDebian/McDebian-rootfs-baselines/mcdebian-buster-router-wrt-1900-1200-3200-32x-kernel_4_19_91-base.gz -C /mnt/usbkey
+
