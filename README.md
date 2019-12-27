@@ -6,7 +6,10 @@
 
 https://github.com/kaloz/mwlwifi
 
+## McDebian 4.19.91 now available
+
 ### Wireless driver upgraded to mwlwifi version 10.3.8.0-20181210
+### Wireguard kernel module version: 0.0.20190913
 
 ## McDebian is compatible with the below Linksys WRT models:
 
