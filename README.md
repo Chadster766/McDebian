@@ -1,3 +1,6 @@
+# New forum community available for Linksys and other networking products
+http://chadster766.com/forums/index.php
+
 # McDebian
 
 ## A Linksys WRT1900, WRT1200, WRT3200 and WRT32X Router Series Debian Implementation
